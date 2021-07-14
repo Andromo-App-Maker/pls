@@ -16,14 +16,11 @@ import 'pls/pls.dart';
 ```
 
  final String fileString = """[playlist]  
-numberofentries=2
-File1=http://exemple/stream/1  
-Title1=EXEMPLE | FM  
+numberofentries=1
+File1=http://example/stream/1
+Title1=EXAMPLE | FM
 Length1=-1
-File2=http://exemple/stream/2
-Title1=EXEMPLE2 | FM
-Length1=-1
-Version=2  
+Version=2
 """;
 
   final plsParser = PlsPlaylist.parse(fileString);
@@ -31,8 +28,8 @@ Version=2
   final List<PlsEntry> plsEntries = plsParser.entries;
 
   for (PlsEntry plsEntry in plsEntries!) {
-      // url: http://example.mp3/stream/1, title:  example | FM, length: '-1'
-      print("url: ${plsEntry.url}, title: ${plsEntry.title}, length: ${plsEntry.length}");
+      // file: http://example/stream/1, title: EXAMPLE | FM, length: '-1'
+      print("file: ${plsEntry.file}, title: ${plsEntry.title}, length: ${plsEntry.length}");
     }
 
 ```

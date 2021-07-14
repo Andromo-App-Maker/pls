@@ -1,6 +1,6 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:pls/src/pls_entry.dart';
 import 'package:pls/src/pls_playlist.dart';
+import 'package:test/test.dart';
 
 void main() async {
   group('Parse pls file', () {
@@ -59,9 +59,9 @@ void main() async {
       );
     });
 
-    test('Parses author', () {
+    test('Parses length', () {
       expect(entry.length, -1,
-          reason: "the parsed author doesn’t match the expected one");
+          reason: "the parsed length doesn’t match the expected one");
     });
   });
 }
