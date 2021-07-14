@@ -1,6 +1,6 @@
 name: pls
 description: pls is a lightweight library for parsing pls documents from document string.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/Andromo-App-Maker/pls
 
 environment:
