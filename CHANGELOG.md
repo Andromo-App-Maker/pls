@@ -1,3 +1,8 @@
+## 1.0.2
+
+- Remove flutter dependencies.
+- Fix typos.
+
 ## 1.0.1
 
 - Fix formatting.
