@@ -12,12 +12,16 @@ class PlsPlaylist extends Equatable {
   final int? version;
 
   /// List of entries media files [PlsEntry].
-  final List<PlsEntry>? entries;
+  final List<PlsEntry> entries;
 
   /// Creates a [PlsPlaylist] with a list [PlsEntry],
   /// total number of records [numberOfEntries],
   /// and PLS [version].
-  const PlsPlaylist({this.entries, this.numberOfEntries, this.version});
+  const PlsPlaylist({
+    this.entries = const [],
+    this.numberOfEntries,
+    this.version,
+  });
 
   /// Parses Pls playlist from a document string.
   factory PlsPlaylist.parse(String src) {
