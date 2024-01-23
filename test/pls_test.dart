@@ -23,7 +23,7 @@ void main() async {
     });
 
     test('Parses entry', () {
-      expect(plsParser.entries!.length, 2);
+      expect(plsParser.entries.length, 2);
     });
 
     test('Version not null', () {
@@ -41,7 +41,7 @@ void main() async {
     test('Parses version', () {
       expect(plsParser.version, 2);
     });
-    final PlsEntry entry = plsParser.entries![0];
+    final PlsEntry entry = plsParser.entries[0];
 
     test('Parses title', () {
       expect(
@@ -128,6 +128,56 @@ Version=2
             ),
             PlsEntry(
               file: "%UserProfile%\\Music\\short.ogg",
+              title: "example for an Environment variable",
+              length: 5,
+            ),
+          ],
+          version: 2,
+          numberOfEntries: 4,
+        ),
+      );
+    });
+
+    test('Playlist file empty or null', () {
+      const String fileString = """
+[playlist]
+
+File1=http://relay5.181.fm:8068
+Length1=-1
+
+File2=https://muz9.z2.fm/8/e7/irina_allegrova_-_ugnala_tebja__ugnala_(zf.fm).mp3
+Title2=MP3
+Length2=120
+
+File3=
+Title3=absolute path on Windows
+
+Title4=example for an Environment variable
+Length4=5
+
+NumberOfEntries=4
+Version=2
+    """;
+      final plsParser = PlsPlaylist.parse(fileString);
+      expect(
+        plsParser,
+        const PlsPlaylist(
+          entries: [
+            PlsEntry(
+              file: "http://relay5.181.fm:8068",
+              length: -1,
+            ),
+            PlsEntry(
+              file:
+                  "https://muz9.z2.fm/8/e7/irina_allegrova_-_ugnala_tebja__ugnala_(zf.fm).mp3",
+              title: "MP3",
+              length: 120,
+            ),
+            PlsEntry(
+              file: "",
+              title: "absolute path on Windows",
+            ),
+            PlsEntry(
               title: "example for an Environment variable",
               length: 5,
             ),
