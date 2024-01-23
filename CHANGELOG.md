@@ -1,3 +1,8 @@
+## 1.1.0
+
+- fix parse bug.
+- add lint package.
+
 ## 1.0.4
 
 - Remove flutter dependencies.

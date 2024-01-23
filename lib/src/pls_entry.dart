@@ -1,5 +1,7 @@
+import 'package:equatable/equatable.dart';
+
 /// Pls entry that specifies the media file.
-class PlsEntry {
+class PlsEntry extends Equatable {
   /// Location of media file/stream.
   final String? file;
 
@@ -12,5 +14,8 @@ class PlsEntry {
   final int? length;
 
   /// Creates [PlsEntry] that specifies the media file.
-  PlsEntry({this.file, this.title, this.length});
+  const PlsEntry({this.file, this.title, this.length});
+
+  @override
+  List<Object?> get props => [file, title, length];
 }

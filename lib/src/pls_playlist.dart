@@ -1,9 +1,8 @@
-library pls;
-
-import 'pls_entry.dart';
+import 'package:equatable/equatable.dart';
+import 'package:pls/src/pls_entry.dart';
 
 /// Pls playlist.
-class PlsPlaylist {
+class PlsPlaylist extends Equatable {
   /// The total number of entries in the playlist.
   final int? numberOfEntries;
 
@@ -18,61 +17,40 @@ class PlsPlaylist {
   /// Creates a [PlsPlaylist] with a list [PlsEntry],
   /// total number of records [numberOfEntries],
   /// and PLS [version].
-  PlsPlaylist({this.entries, this.numberOfEntries, this.version});
+  const PlsPlaylist({this.entries, this.numberOfEntries, this.version});
 
   /// Parses Pls playlist from a document string.
   factory PlsPlaylist.parse(String src) {
-    List<PlsEntry> entryList = [];
-    List<String?> fileList = [];
-    List<String?> listTitle = [];
-    List<int?> lengthsList = [];
-    int? entriesCount;
-    int? plsVersion;
+    final List<PlsEntry> entryList = [];
 
-    // Get url
-    final regexUrl = RegExp(r'[Ff]ile[0-9]+\=(.*)');
-    final matchUrl = regexUrl.allMatches(src);
-    for (RegExpMatch element in matchUrl) {
-      final url = element.group(1);
-      fileList.add(url);
-    }
+    final regexNumberOfEntries = RegExp('[Nn]umber[oO]f[eE]ntries=(.*)');
+    final matchEntries = regexNumberOfEntries.firstMatch(src);
+    final entriesString = matchEntries?.group(1);
+    final int entriesCount =
+        entriesString != null ? int.tryParse(entriesString) ?? 0 : 0;
 
-    // Get title
-    final regexTitle = RegExp(r'[Tt]itle[0-9]+\=(.*)');
-    final matchTitle = regexTitle.allMatches(src);
-    for (RegExpMatch element in matchTitle) {
-      final title = element.group(1);
-      listTitle.add(title);
-    }
-
-    // Get length
-    final regexLength = RegExp(r'[Ll]ength[0-9]+\=(.*)');
-    final matchLength = regexLength.allMatches(src);
-    for (RegExpMatch element in matchLength) {
-      final length = element.group(1);
-      lengthsList.add(length != null ? int.tryParse(length) : null);
-    }
-
-    // Get numberOfEntries
-    final regexNumberOfEntries = RegExp(r'[Nn]umber[oO]f[eE]ntries\=(.*)');
-    final match = regexNumberOfEntries.firstMatch(src);
-    final entriesString = match?.group(1);
-    entriesCount = entriesString != null ? int.tryParse(entriesString) : null;
-
-    // Get version
-    final regexVersion = RegExp(r'[Vv]ersion\=(.*)');
+    final regexVersion = RegExp('[Vv]ersion=(.*)');
     final matchVersion = regexVersion.firstMatch(src);
     final versionString = matchVersion?.group(1);
-    plsVersion = versionString != null ? int.tryParse(versionString) : null;
+    final int? plsVersion =
+        versionString != null ? int.tryParse(versionString) : null;
 
-    for (int i = 0; i < fileList.length; i++) {
-      entryList.add(
-        PlsEntry(
-          file: fileList[i],
-          title: listTitle[i],
-          length: lengthsList.isEmpty ? null : lengthsList[i],
-        ),
-      );
+    for (int i = 1; i <= entriesCount; i++) {
+      final fileRegex = RegExp('File$i=(.*)', caseSensitive: false);
+      final titleRegex = RegExp('Title$i=(.*)', caseSensitive: false);
+      final lengthRegex = RegExp('Length$i=(.*)', caseSensitive: false);
+
+      final fileMatch = fileRegex.firstMatch(src);
+      final titleMatch = titleRegex.firstMatch(src);
+      final lengthMatch = lengthRegex.firstMatch(src);
+
+      final file = fileMatch?.group(1);
+      final title = titleMatch?.group(1);
+      final length = lengthMatch?.group(1) != null
+          ? int.tryParse(lengthMatch!.group(1)!)
+          : null;
+
+      entryList.add(PlsEntry(file: file, title: title, length: length));
     }
 
     return PlsPlaylist(
@@ -81,4 +59,7 @@ class PlsPlaylist {
       numberOfEntries: entriesCount,
     );
   }
+
+  @override
+  List<Object?> get props => [entries, version, numberOfEntries];
 }
