@@ -145,7 +145,7 @@ Version=2
 File1=http://relay5.181.fm:8068
 Length1=-1
 
-File2=https://muz9.z2.fm/8/e7/irina_allegrova_-_ugnala_tebja__ugnala_(zf.fm).mp3
+File2=https://mp3.barchin.com/1705323741_klavdia-petrivna-osty-chorn-bl.mp3
 Title2=MP3
 Length2=120
 

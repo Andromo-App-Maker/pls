@@ -1,8 +1,7 @@
-import 'package:equatable/equatable.dart';
 import 'package:pls/src/pls_entry.dart';
 
 /// Pls playlist.
-class PlsPlaylist extends Equatable {
+class PlsPlaylist {
   /// The total number of entries in the playlist.
   final int? numberOfEntries;
 
@@ -65,5 +64,33 @@ class PlsPlaylist extends Equatable {
   }
 
   @override
-  List<Object?> get props => [entries, version, numberOfEntries];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is PlsPlaylist &&
+        _listEquals(other.entries, entries) &&
+        other.numberOfEntries == numberOfEntries &&
+        other.version == version;
+  }
+
+  @override
+  int get hashCode =>
+      _listHashCode(entries) ^ numberOfEntries.hashCode ^ version.hashCode;
+
+  bool _listEquals(List<Object> a, List<Object> b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
+  }
+
+  int _listHashCode(List<Object> list) {
+    int result = 0;
+    for (final element in list) {
+      result = result * 31 + element.hashCode;
+    }
+    return result;
+  }
 }
