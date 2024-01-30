@@ -12,5 +12,18 @@ class PlsEntry {
   final int? length;
 
   /// Creates [PlsEntry] that specifies the media file.
-  PlsEntry({this.file, this.title, this.length});
+  const PlsEntry({this.file, this.title, this.length});
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is PlsEntry &&
+        other.file == file &&
+        other.title == title &&
+        other.length == length;
+  }
+
+  @override
+  int get hashCode => file.hashCode ^ title.hashCode ^ length.hashCode;
 }

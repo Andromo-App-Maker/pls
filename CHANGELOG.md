@@ -1,3 +1,9 @@
+## 1.1.0
+
+- Properly handle optional titles and lengths according to PLS format.
+- Override `==` and `hashCode` for `PlsEntry` and `PlsPlaylist`.
+- Add linter.
+
 ## 1.0.4
 
 - Remove flutter dependencies.
